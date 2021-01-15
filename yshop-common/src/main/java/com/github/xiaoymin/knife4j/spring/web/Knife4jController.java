@@ -3,12 +3,7 @@ package com.github.xiaoymin.knife4j.spring.web;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSort;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.github.xiaoymin.knife4j.spring.common.SwaggerBootstrapUiHostNameProvider;
-import com.github.xiaoymin.knife4j.spring.model.MarkdownFiles;
-import com.github.xiaoymin.knife4j.spring.model.RestHandlerMapping;
-import com.github.xiaoymin.knife4j.spring.model.SwaggerBootstrapUi;
-import com.github.xiaoymin.knife4j.spring.model.SwaggerBootstrapUiPath;
-import com.github.xiaoymin.knife4j.spring.model.SwaggerBootstrapUiTag;
-import com.github.xiaoymin.knife4j.spring.model.SwaggerExt;
+import com.github.xiaoymin.knife4j.spring.model.*;
 import com.github.xiaoymin.knife4j.spring.util.SwaggerUtil;
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
@@ -56,14 +51,7 @@ import springfox.documentation.swagger2.mappers.ServiceModelToSwagger2Mapper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
@@ -94,7 +82,7 @@ public class Knife4jController {
         this.jsonSerializer = jsonSerializer;
         this.hostNameOverride = environment.getProperty("springfox.documentation.swagger.v2.host", "DEFAULT");
         this.handlerProviders = handlerProviders;
-        this.markdownFiles = (MarkdownFiles)markdownFilesObjectProvider.getIfAvailable();
+        this.markdownFiles = (MarkdownFiles) markdownFilesObjectProvider.getIfAvailable();
     }
 
     private Function<RequestHandlerProvider, ? extends Iterable<RequestHandler>> handlers() {
@@ -110,7 +98,7 @@ public class Knife4jController {
             method = RequestMethod.GET,
             produces = {APPLICATION_JSON_VALUE, HAL_MEDIA_TYPE})
     @ResponseBody
-    public ResponseEntity<Json> apiSorts(@RequestParam(value = "group",required = false) String swaggerGroup, HttpServletRequest request) {
+    public ResponseEntity<Json> apiSorts(@RequestParam(value = "group", required = false) String swaggerGroup, HttpServletRequest request) {
         String groupName = Optional.ofNullable(swaggerGroup).orElse("default");
         Documentation documentation = this.documentationCache.documentationByGroup(groupName);
         if (documentation == null) {
@@ -163,7 +151,7 @@ public class Knife4jController {
             ArrayList targetPathLists;
             SwaggerBootstrapUiTag tag;
             label64:
-            for(targetPathLists = Lists.newArrayList(); tags.hasNext(); targetTagLists.add(tag)) {
+            for (targetPathLists = Lists.newArrayList(); tags.hasNext(); targetTagLists.add(tag)) {
                 Tag sourceTag = tags.next();
                 String tagName = sourceTag.getName();
                 int order = 2147483647;
@@ -172,11 +160,11 @@ public class Knife4jController {
                 Api tagApi = null;
                 RestHandlerMapping tagMapping = null;
                 Iterator<RestHandlerMapping> var15 = this.globalHandlerMappings.iterator();
-                while(true) {
-                    while(true) {
-                        while(var15.hasNext()) {
+                while (true) {
+                    while (true) {
+                        while (var15.hasNext()) {
                             RestHandlerMapping rhm = var15.next();
-                            Api api = (Api)rhm.getBeanType().getAnnotation(Api.class);
+                            Api api = (Api) rhm.getBeanType().getAnnotation(Api.class);
                             if (api != null) {
                                 api.tags();
                                 if (api.tags().length > 0) {
@@ -246,7 +234,7 @@ public class Knife4jController {
                 List<RequestHandler> requestHandlers = FluentIterable.from(this.handlerProviders).transformAndConcat(this.handlers()).toList();
                 Iterator<RequestHandler> var4 = requestHandlers.iterator();
 
-                while(true) {
+                while (true) {
                     RequestHandler requestHandler;
                     do {
                         if (!var4.hasNext()) {
@@ -254,9 +242,9 @@ public class Knife4jController {
                         }
 
                         requestHandler = var4.next();
-                    } while(!(requestHandler instanceof WebMvcRequestHandler));
+                    } while (!(requestHandler instanceof WebMvcRequestHandler));
 
-                    WebMvcRequestHandler webMvcRequestHandler = (WebMvcRequestHandler)requestHandler;
+                    WebMvcRequestHandler webMvcRequestHandler = (WebMvcRequestHandler) requestHandler;
                     Set<String> patterns = webMvcRequestHandler.getRequestMapping().getPatternsCondition().getPatterns();
                     Set<RequestMethod> restMethods = webMvcRequestHandler.getRequestMapping().getMethodsCondition().getMethods();
                     HandlerMethod handlerMethod = webMvcRequestHandler.getHandlerMethod();
@@ -264,7 +252,7 @@ public class Knife4jController {
                     Method method = ClassUtils.getMostSpecificMethod(handlerMethod.getMethod(), controllerClazz);
 
                     String url;
-                    for(Iterator<String> var12 = patterns.iterator(); var12.hasNext(); this.globalHandlerMappings.add(new RestHandlerMapping(parentPath + url, controllerClazz, method, restMethods))) {
+                    for (Iterator<String> var12 = patterns.iterator(); var12.hasNext(); this.globalHandlerMappings.add(new RestHandlerMapping(parentPath + url, controllerClazz, method, restMethods))) {
                         url = var12.next();
                         if (LOGGER.isDebugEnabled()) {
                             LOGGER.debug("url:" + url + "\r\nclass:" + controllerClazz.toString() + "\r\nmethod:" + method.toString());
@@ -278,7 +266,9 @@ public class Knife4jController {
 
     }
 
-    /** @deprecated */
+    /**
+     * @deprecated
+     */
     @Deprecated
     private void initGlobalRequestMappingArray(WebApplicationContext wc, SwaggerExt swaggerExt) {
         if (this.globalHandlerMappings.size() == 0) {
@@ -290,15 +280,15 @@ public class Knife4jController {
             Map<String, HandlerMapping> requestMappings = BeanFactoryUtils.beansOfTypeIncludingAncestors(wc, HandlerMapping.class, true, false);
             Iterator<HandlerMapping> var5 = requestMappings.values().iterator();
 
-            while(true) {
+            while (true) {
                 HandlerMapping handlerMapping;
                 do {
                     if (!var5.hasNext()) {
                         return;
                     }
                     handlerMapping = var5.next();
-                } while(!(handlerMapping instanceof RequestMappingHandlerMapping));
-                RequestMappingHandlerMapping rmhMapping = (RequestMappingHandlerMapping)handlerMapping;
+                } while (!(handlerMapping instanceof RequestMappingHandlerMapping));
+                RequestMappingHandlerMapping rmhMapping = (RequestMappingHandlerMapping) handlerMapping;
                 Map<RequestMappingInfo, HandlerMethod> handlerMethods = rmhMapping.getHandlerMethods();
                 for (RequestMappingInfo rmi : handlerMethods.keySet()) {
                     PatternsRequestCondition prc = rmi.getPatternsCondition();
@@ -327,7 +317,7 @@ public class Knife4jController {
         if (rhm.getRequestMethods() != null && rhm.getRequestMethods().size() != 0) {
             Iterator<RequestMethod> var7 = rhm.getRequestMethods().iterator();
 
-            while(var7.hasNext()) {
+            while (var7.hasNext()) {
                 RequestMethod requestMethod = var7.next();
                 targetPathLists.add(new SwaggerBootstrapUiPath(rhm.getUrl(), requestMethod.name().toUpperCase(), this.getRestMethodOrder(rhm.getBeanOfMethod())));
             }
@@ -335,7 +325,7 @@ public class Knife4jController {
             RequestMethod[] var3 = this.globalRequestMethods;
             int var4 = var3.length;
 
-            for(int var5 = 0; var5 < var4; ++var5) {
+            for (int var5 = 0; var5 < var4; ++var5) {
                 RequestMethod requestMethod = var3[var5];
                 targetPathLists.add(new SwaggerBootstrapUiPath(rhm.getUrl(), requestMethod.name().toUpperCase(), this.getRestMethodOrder(rhm.getBeanOfMethod())));
             }
@@ -369,19 +359,19 @@ public class Knife4jController {
 
     private int getRestMethodOrder(Method target) {
         int pathOrder = 2147483647;
-        ApiOperation apiOperation = (ApiOperation)target.getAnnotation(ApiOperation.class);
+        ApiOperation apiOperation = (ApiOperation) target.getAnnotation(ApiOperation.class);
         ApiOperationSort apiOperationSort;
         if (apiOperation != null) {
             if (apiOperation.position() != 0) {
                 pathOrder = apiOperation.position();
             } else {
-                apiOperationSort = (ApiOperationSort)target.getAnnotation(ApiOperationSort.class);
+                apiOperationSort = (ApiOperationSort) target.getAnnotation(ApiOperationSort.class);
                 if (apiOperationSort != null) {
                     pathOrder = apiOperationSort.value();
                 }
             }
         } else {
-            apiOperationSort = (ApiOperationSort)target.getAnnotation(ApiOperationSort.class);
+            apiOperationSort = (ApiOperationSort) target.getAnnotation(ApiOperationSort.class);
             if (apiOperationSort != null) {
                 pathOrder = apiOperationSort.value();
             }

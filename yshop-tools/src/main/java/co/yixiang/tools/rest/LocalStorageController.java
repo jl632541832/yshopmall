@@ -1,9 +1,9 @@
 /**
-* Copyright (C) 2018-2020
-* All rights reserved, Designed By www.yixiang.co
-* 注意：
-* 本软件为www.yixiang.co开发研制
-*/
+ * Copyright (C) 2018-2020
+ * All rights reserved, Designed By www.yixiang.co
+ * 注意：
+ * 本软件为www.yixiang.co开发研制
+ */
 package co.yixiang.tools.rest;
 
 import co.yixiang.dozer.service.IGenerator;
@@ -19,14 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -34,9 +27,9 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
-* @author hupeng
-* @date 2020-05-13
-*/
+ * @author hupeng
+ * @date 2020-05-13
+ */
 @AllArgsConstructor
 @Api(tags = "文件管理")
 @RestController
@@ -59,23 +52,23 @@ public class LocalStorageController {
     @Log("查询文件")
     @ApiOperation("查询文件")
     @PreAuthorize("@el.check('admin','localStorage:list')")
-    public ResponseEntity<Object> getLocalStorages(LocalStorageQueryCriteria criteria, Pageable pageable){
-        return new ResponseEntity<>(localStorageService.queryAll(criteria,pageable),HttpStatus.OK);
+    public ResponseEntity<Object> getLocalStorages(LocalStorageQueryCriteria criteria, Pageable pageable) {
+        return new ResponseEntity<>(localStorageService.queryAll(criteria, pageable), HttpStatus.OK);
     }
 
     @PostMapping
     @Log("新增文件")
     @ApiOperation("新增文件")
     @PreAuthorize("@el.check('admin','localStorage:add')")
-    public ResponseEntity<Object> create(@RequestParam String name, @RequestParam("file") MultipartFile file){
-        return new ResponseEntity<>(localStorageService.create(name,file),HttpStatus.CREATED);
+    public ResponseEntity<Object> create(@RequestParam String name, @RequestParam("file") MultipartFile file) {
+        return new ResponseEntity<>(localStorageService.create(name, file), HttpStatus.CREATED);
     }
 
     @PutMapping
     @Log("修改文件")
     @ApiOperation("修改文件")
     @PreAuthorize("@el.check('admin','localStorage:edit')")
-    public ResponseEntity<Object> update(@Validated @RequestBody LocalStorageDto resources){
+    public ResponseEntity<Object> update(@Validated @RequestBody LocalStorageDto resources) {
         localStorageService.updateLocalStorage(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -85,7 +78,7 @@ public class LocalStorageController {
     @PreAuthorize("@el.check('admin','localStorage:del')")
     @DeleteMapping
     public ResponseEntity<Object> deleteAll(@RequestBody Long[] ids) {
-        Arrays.asList(ids).forEach(id->{
+        Arrays.asList(ids).forEach(id -> {
             localStorageService.removeById(id);
         });
         return new ResponseEntity<>(HttpStatus.OK);

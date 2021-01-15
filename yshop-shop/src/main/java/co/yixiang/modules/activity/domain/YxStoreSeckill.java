@@ -1,9 +1,9 @@
 /**
-* Copyright (C) 2018-2020
-* All rights reserved, Designed By www.yixiang.co
-* 注意：
-* 本软件为www.yixiang.co开发研制
-*/
+ * Copyright (C) 2018-2020
+ * All rights reserved, Designed By www.yixiang.co
+ * 注意：
+ * 本软件为www.yixiang.co开发研制
+ */
 package co.yixiang.modules.activity.domain;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -12,19 +12,15 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 /**
-* @author hupeng
-* @date 2020-05-13
-*/
+ * @author hupeng
+ * @date 2020-05-13
+ */
 @Data
 @TableName("yx_store_seckill")
 public class YxStoreSeckill implements Serializable {
@@ -59,8 +55,8 @@ public class YxStoreSeckill implements Serializable {
 
     /** 价格 */
     @NotNull(message = "请输入秒杀价")
-    @DecimalMin(value="0.00", message = "秒杀价不在合法范围内" )
-    @DecimalMax(value="99999999.99", message = "秒杀价不在合法范围内")
+    @DecimalMin(value = "0.00", message = "秒杀价不在合法范围内")
+    @DecimalMax(value = "99999999.99", message = "秒杀价不在合法范围内")
     private BigDecimal price;
 
 
@@ -82,7 +78,7 @@ public class YxStoreSeckill implements Serializable {
 
     /** 库存 */
     @NotNull(message = "请输入库存")
-    @Min(message = "库存不能小于0",value = 1)
+    @Min(message = "库存不能小于0", value = 1)
     private Integer stock;
 
 
@@ -133,7 +129,7 @@ public class YxStoreSeckill implements Serializable {
 
     /** 最多秒杀几个 */
     @NotNull(message = "请输入限购")
-    @Min(message = "限购不能小于0",value = 1)
+    @Min(message = "限购不能小于0", value = 1)
     private Integer num;
 
 
@@ -152,7 +148,7 @@ public class YxStoreSeckill implements Serializable {
     private Integer timeId;
 
 
-    public void copy(YxStoreSeckill source){
-        BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
+    public void copy(YxStoreSeckill source) {
+        BeanUtil.copyProperties(source, this, CopyOptions.create().setIgnoreNullValue(true));
     }
 }

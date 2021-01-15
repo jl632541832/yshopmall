@@ -1,9 +1,9 @@
 /**
-* Copyright (C) 2018-2020
-* All rights reserved, Designed By www.yixiang.co
-* 注意：
-* 本软件为www.yixiang.co开发研制
-*/
+ * Copyright (C) 2018-2020
+ * All rights reserved, Designed By www.yixiang.co
+ * 注意：
+ * 本软件为www.yixiang.co开发研制
+ */
 package co.yixiang.modules.shop.rest;
 
 import co.yixiang.logging.aop.log.Log;
@@ -19,19 +19,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
-* @author hupeng
-* @date 2019-12-04
-*/
+ * @author hupeng
+ * @date 2019-12-04
+ */
 @Api(tags = "商城:用户任务管理")
 @RestController
 @RequestMapping("api")
@@ -48,12 +41,12 @@ public class SystemUserTaskController {
     @GetMapping(value = "/yxSystemUserTask")
     @PreAuthorize("hasAnyRole('admin','YXSYSTEMUSERTASK_ALL','YXSYSTEMUSERTASK_SELECT')")
     public ResponseEntity getYxSystemUserTasks(YxSystemUserTaskQueryCriteria criteria,
-                                               Pageable pageable){
+                                               Pageable pageable) {
         Sort sort = new Sort(Sort.Direction.ASC, "level_id");
         Pageable pageableT = PageRequest.of(pageable.getPageNumber(),
                 pageable.getPageSize(),
                 sort);
-        return new ResponseEntity(yxSystemUserTaskService.queryAll(criteria,pageableT),
+        return new ResponseEntity(yxSystemUserTaskService.queryAll(criteria, pageableT),
                 HttpStatus.OK);
     }
 
@@ -61,15 +54,15 @@ public class SystemUserTaskController {
     @ApiOperation(value = "新增")
     @PostMapping(value = "/yxSystemUserTask")
     @PreAuthorize("hasAnyRole('admin','YXSYSTEMUSERTASK_ALL','YXSYSTEMUSERTASK_CREATE')")
-    public ResponseEntity create(@Validated @RequestBody YxSystemUserTask resources){
-        return new ResponseEntity(yxSystemUserTaskService.save(resources),HttpStatus.CREATED);
+    public ResponseEntity create(@Validated @RequestBody YxSystemUserTask resources) {
+        return new ResponseEntity(yxSystemUserTaskService.save(resources), HttpStatus.CREATED);
     }
 
     @Log("修改")
     @ApiOperation(value = "修改")
     @PutMapping(value = "/yxSystemUserTask")
     @PreAuthorize("hasAnyRole('admin','YXSYSTEMUSERTASK_ALL','YXSYSTEMUSERTASK_EDIT')")
-    public ResponseEntity update(@Validated @RequestBody YxSystemUserTask resources){
+    public ResponseEntity update(@Validated @RequestBody YxSystemUserTask resources) {
 
         yxSystemUserTaskService.saveOrUpdate(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -79,7 +72,7 @@ public class SystemUserTaskController {
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "/yxSystemUserTask/{id}")
     @PreAuthorize("hasAnyRole('admin','YXSYSTEMUSERTASK_ALL','YXSYSTEMUSERTASK_DELETE')")
-    public ResponseEntity delete(@PathVariable Integer id){
+    public ResponseEntity delete(@PathVariable Integer id) {
 
         yxSystemUserTaskService.removeById(id);
         return new ResponseEntity(HttpStatus.OK);

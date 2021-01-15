@@ -1,9 +1,9 @@
 /**
-* Copyright (C) 2018-2020
-* All rights reserved, Designed By www.yixiang.co
-* 注意：
-* 本软件为www.yixiang.co开发研制
-*/
+ * Copyright (C) 2018-2020
+ * All rights reserved, Designed By www.yixiang.co
+ * 注意：
+ * 本软件为www.yixiang.co开发研制
+ */
 package co.yixiang.tools.rest;
 
 import co.yixiang.dozer.service.IGenerator;
@@ -19,13 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -51,8 +45,8 @@ public class PictureController {
     @PreAuthorize("@el.check('pictures:list')")
     @GetMapping
     @ApiOperation("查询图片")
-    public ResponseEntity<Object> getRoles(PictureQueryCriteria criteria, Pageable pageable){
-        return new ResponseEntity<>(pictureService.queryAll(criteria,pageable),HttpStatus.OK);
+    public ResponseEntity<Object> getRoles(PictureQueryCriteria criteria, Pageable pageable) {
+        return new ResponseEntity<>(pictureService.queryAll(criteria, pageable), HttpStatus.OK);
     }
 
     @Log("导出数据")
@@ -67,16 +61,16 @@ public class PictureController {
     @PreAuthorize("@el.check('pictures:add')")
     @PostMapping
     @ApiOperation("上传图片")
-    public ResponseEntity<Object> upload(@RequestParam MultipartFile file){
+    public ResponseEntity<Object> upload(@RequestParam MultipartFile file) {
         String userName = SecurityUtils.getUsername();
-        Picture picture = pictureService.upload(file,userName);
-        return new ResponseEntity<>(picture,HttpStatus.OK);
+        Picture picture = pictureService.upload(file, userName);
+        return new ResponseEntity<>(picture, HttpStatus.OK);
     }
 
     @Log("同步图床数据")
     @ApiOperation("同步图床数据")
     @PostMapping(value = "/synchronize")
-    public ResponseEntity<Object> synchronize(){
+    public ResponseEntity<Object> synchronize() {
         pictureService.synchronize();
         return new ResponseEntity<>(HttpStatus.OK);
     }

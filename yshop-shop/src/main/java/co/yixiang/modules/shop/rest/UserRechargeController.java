@@ -1,9 +1,9 @@
 /**
-* Copyright (C) 2018-2020
-* All rights reserved, Designed By www.yixiang.co
-* 注意：
-* 本软件为www.yixiang.co开发研制
-*/
+ * Copyright (C) 2018-2020
+ * All rights reserved, Designed By www.yixiang.co
+ * 注意：
+ * 本软件为www.yixiang.co开发研制
+ */
 package co.yixiang.modules.shop.rest;
 
 import co.yixiang.dozer.service.IGenerator;
@@ -19,12 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -32,9 +27,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
-* @author hupeng
-* @date 2020-03-02
-*/
+ * @author hupeng
+ * @date 2020-03-02
+ */
 @Api(tags = "充值管理管理")
 @RestController
 @RequestMapping("/api/yxUserRecharge")
@@ -42,6 +37,7 @@ public class UserRechargeController {
 
     private final YxUserRechargeService yxUserRechargeService;
     private final IGenerator generator;
+
     public UserRechargeController(YxUserRechargeService yxUserRechargeService, IGenerator generator) {
         this.yxUserRechargeService = yxUserRechargeService;
         this.generator = generator;
@@ -59,18 +55,17 @@ public class UserRechargeController {
     @Log("查询充值管理")
     @ApiOperation("查询充值管理")
     @PreAuthorize("@el.check('yxUserRecharge:list')")
-    public ResponseEntity<Object> getYxUserRecharges(YxUserRechargeQueryCriteria criteria, Pageable pageable){
-        return new ResponseEntity<>(yxUserRechargeService.queryAll(criteria,pageable),HttpStatus.OK);
+    public ResponseEntity<Object> getYxUserRecharges(YxUserRechargeQueryCriteria criteria, Pageable pageable) {
+        return new ResponseEntity<>(yxUserRechargeService.queryAll(criteria, pageable), HttpStatus.OK);
     }
 
     @PostMapping
     @Log("新增充值管理")
     @ApiOperation("新增充值管理")
     @PreAuthorize("@el.check('yxUserRecharge:add')")
-    public ResponseEntity<Object> create(@Validated @RequestBody YxUserRecharge resources){
-        return new ResponseEntity<>(yxUserRechargeService.save(resources),HttpStatus.CREATED);
+    public ResponseEntity<Object> create(@Validated @RequestBody YxUserRecharge resources) {
+        return new ResponseEntity<>(yxUserRechargeService.save(resources), HttpStatus.CREATED);
     }
-
 
 
     @Log("删除充值管理")

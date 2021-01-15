@@ -1,8 +1,17 @@
 <h1 style="text-align: center">yshop意象商城系统</h1>
 
+#### 3.2版本预告：
+1、新增积分商城兑换
 
+2、新增模板装修功能
+
+3、商家公众号订单通知
+
+4、app版本管理
+
+5、其他前后端功能优化
 #### 项目简介
-yshop基于当前流行技术组合的前后端分离商城系统： SpringBoot2+MybatisPlus+SpringSecurity+jwt+redis+Vue的前后端分离的商城系统， 包含商城、拼团、砍价、商户管理、 秒杀、优惠券、积分、分销、会员、充值、多门店等功能，更适合企业或个人二次开发；；
+yshop基于当前流行技术组合的前后端分离商城系统： SpringBoot2+MybatisPlus+SpringSecurity+jwt+redis+Vue的前后端分离的商城系统， 包含商城、小程序直播、拼团、砍价、商户管理、 秒杀、优惠券、积分、分销、会员、充值、多门店等功能，更适合企业或个人二次开发；；
 
 ### 3.1版本功能已经发布官网查看：
 演示地址：https://www.yixiang.co
@@ -120,14 +129,10 @@ yshop基于当前流行技术组合的前后端分离商城系统： SpringBoot2
     * 1.13 WxJava
     * 1.14 Lombok
     * 1.15 Hutool
-    * 1.16 Mapstruct
-	* 1.17 Redisson
-	* 1.18 Rocketmq
         
 * 前端使用技术
     * 2.1 Vue 全家桶
     * 2.2 Element
-    * 2.3 mpvue
     * 2.3 uniapp
 
 

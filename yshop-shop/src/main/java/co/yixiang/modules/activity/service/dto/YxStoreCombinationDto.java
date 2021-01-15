@@ -1,9 +1,9 @@
 /**
-* Copyright (C) 2018-2020
-* All rights reserved, Designed By www.yixiang.co
-* 注意：
-* 本软件为www.yixiang.co开发研制
-*/
+ * Copyright (C) 2018-2020
+ * All rights reserved, Designed By www.yixiang.co
+ * 注意：
+ * 本软件为www.yixiang.co开发研制
+ */
 package co.yixiang.modules.activity.service.dto;
 
 import lombok.Data;
@@ -13,9 +13,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
-* @author hupeng
-* @date 2020-05-13
-*/
+ * @author hupeng
+ * @date 2020-05-13
+ */
 @Data
 public class YxStoreCombinationDto implements Serializable {
 
@@ -104,7 +104,7 @@ public class YxStoreCombinationDto implements Serializable {
     // 拼团订单有效时间
     private Integer effectiveTime;
 
-    // 拼图产品成本
+    // 拼团产品成本
     private Integer cost;
 
     // 浏览量

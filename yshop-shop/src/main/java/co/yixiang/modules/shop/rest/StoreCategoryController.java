@@ -1,9 +1,9 @@
 /**
-* Copyright (C) 2018-2020
-* All rights reserved, Designed By www.yixiang.co
-* 注意：
-* 本软件为www.yixiang.co开发研制
-*/
+ * Copyright (C) 2018-2020
+ * All rights reserved, Designed By www.yixiang.co
+ * 注意：
+ * 本软件为www.yixiang.co开发研制
+ */
 package co.yixiang.modules.shop.rest;
 
 import cn.hutool.core.util.StrUtil;
@@ -17,7 +17,6 @@ import co.yixiang.modules.shop.service.YxStoreProductService;
 import co.yixiang.modules.shop.service.dto.YxStoreCategoryDto;
 import co.yixiang.modules.shop.service.dto.YxStoreCategoryQueryCriteria;
 import co.yixiang.utils.OrderUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cache.annotation.CacheEvict;
@@ -26,24 +25,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Wrapper;
 import java.util.List;
 
 /**
-* @author hupeng
-* @date 2019-10-03
-*/
+ * @author hupeng
+ * @date 2019-10-03
+ */
 @Api(tags = "商城:商品分类管理")
 @RestController
 @RequestMapping("api")
@@ -73,51 +64,55 @@ public class StoreCategoryController {
     @ApiOperation(value = "查询商品分类")
     @GetMapping(value = "/yxStoreCategory")
     @PreAuthorize("hasAnyRole('admin','YXSTORECATEGORY_ALL','YXSTORECATEGORY_SELECT')")
-    public ResponseEntity getYxStoreCategorys(YxStoreCategoryQueryCriteria criteria, Pageable pageable){
+    public ResponseEntity getYxStoreCategorys(YxStoreCategoryQueryCriteria criteria, Pageable pageable) {
 
         List<YxStoreCategoryDto> categoryDTOList = yxStoreCategoryService.queryAll(criteria);
-        return new ResponseEntity(yxStoreCategoryService.buildTree(categoryDTOList),HttpStatus.OK);
+        return new ResponseEntity(yxStoreCategoryService.buildTree(categoryDTOList), HttpStatus.OK);
     }
 
     @Log("新增商品分类")
     @ApiOperation(value = "新增商品分类")
     @PostMapping(value = "/yxStoreCategory")
-    @CacheEvict(cacheNames = ShopConstants.YSHOP_REDIS_INDEX_KEY,allEntries = true)
+    @CacheEvict(cacheNames = ShopConstants.YSHOP_REDIS_INDEX_KEY, allEntries = true)
     @PreAuthorize("hasAnyRole('admin','YXSTORECATEGORY_ALL','YXSTORECATEGORY_CREATE')")
-    public ResponseEntity create(@Validated @RequestBody YxStoreCategory resources){
+    public ResponseEntity create(@Validated @RequestBody YxStoreCategory resources) {
 
-        if(resources.getPid() > 0 && StrUtil.isBlank(resources.getPic())) {
+        if (resources.getPid() > 0 && StrUtil.isBlank(resources.getPic())) {
             throw new BadRequestException("子分类图片必传");
         }
 
 
         boolean checkResult = yxStoreCategoryService.checkCategory(resources.getPid());
 
-        if(!checkResult) {throw new BadRequestException("分类最多能添加2级哦");}
+        if (!checkResult) {
+            throw new BadRequestException("分类最多能添加2级哦");
+        }
 
 
         resources.setAddTime(OrderUtil.getSecondTimestampTwo());
-        return new ResponseEntity(yxStoreCategoryService.save(resources),HttpStatus.CREATED);
+        return new ResponseEntity(yxStoreCategoryService.save(resources), HttpStatus.CREATED);
     }
 
     @Log("修改商品分类")
     @ApiOperation(value = "修改商品分类")
-    @CacheEvict(cacheNames = ShopConstants.YSHOP_REDIS_INDEX_KEY,allEntries = true)
+    @CacheEvict(cacheNames = ShopConstants.YSHOP_REDIS_INDEX_KEY, allEntries = true)
     @PutMapping(value = "/yxStoreCategory")
     @PreAuthorize("hasAnyRole('admin','YXSTORECATEGORY_ALL','YXSTORECATEGORY_EDIT')")
-    public ResponseEntity update(@Validated @RequestBody YxStoreCategory resources){
+    public ResponseEntity update(@Validated @RequestBody YxStoreCategory resources) {
 
-        if(resources.getPid() > 0 && StrUtil.isBlank(resources.getPic())) {
+        if (resources.getPid() > 0 && StrUtil.isBlank(resources.getPic())) {
             throw new BadRequestException("子分类图片必传");
         }
 
-        if(resources.getId().equals(resources.getPid())){
+        if (resources.getId().equals(resources.getPid())) {
             throw new BadRequestException("自己不能选择自己哦");
         }
 
         boolean checkResult = yxStoreCategoryService.checkCategory(resources.getPid());
 
-        if(!checkResult) {throw new BadRequestException("分类最多能添加2级哦");}
+        if (!checkResult) {
+            throw new BadRequestException("分类最多能添加2级哦");
+        }
 
         yxStoreCategoryService.saveOrUpdate(resources);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -125,13 +120,13 @@ public class StoreCategoryController {
 
     @Log("删除商品分类")
     @ApiOperation(value = "删除商品分类")
-    @CacheEvict(cacheNames = ShopConstants.YSHOP_REDIS_INDEX_KEY,allEntries = true)
+    @CacheEvict(cacheNames = ShopConstants.YSHOP_REDIS_INDEX_KEY, allEntries = true)
     @DeleteMapping(value = "/yxStoreCategory/{id}")
     @PreAuthorize("hasAnyRole('admin','YXSTORECATEGORY_ALL','YXSTORECATEGORY_DELETE')")
-    public ResponseEntity delete(@PathVariable String id){
+    public ResponseEntity delete(@PathVariable String id) {
 
         String[] ids = id.split(",");
-        for (String newId: ids) {
+        for (String newId : ids) {
             this.delCheck(Integer.valueOf(newId));
             yxStoreCategoryService.removeById(Integer.valueOf(newId));
         }
@@ -142,19 +137,19 @@ public class StoreCategoryController {
      * 检测删除分类
      * @param id 分类id
      */
-    private void delCheck(Integer id){
+    private void delCheck(Integer id) {
         int count = yxStoreCategoryService.lambdaQuery()
-                .eq(YxStoreCategory::getPid,id)
+                .eq(YxStoreCategory::getPid, id)
                 .count();
-        if(count > 0) {
+        if (count > 0) {
             throw new BadRequestException("请先删除子分类");
         }
 
         int countP = yxStoreProductService.lambdaQuery()
-                .eq(YxStoreProduct::getCateId,id)
+                .eq(YxStoreProduct::getCateId, id)
                 .count();
 
-        if(countP > 0) {
+        if (countP > 0) {
             throw new BadRequestException("当前分类下有商品不可删除");
         }
     }
